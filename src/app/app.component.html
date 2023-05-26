@@ -1,0 +1,170 @@
+<div *ngIf="books" class="w-screen flex items-center justify-center flex-col">
+  <h2 class="text-2xl font-bold">Book Management</h2>
+  <form (ngSubmit)="addBook()" class="mt-4 w-full max-w-xl">
+    <div class="flex flex-col">
+      <label
+        for="title"
+        class="text-sm font-bold text-gray-700 tracking-wide mb-2"
+        >Title</label
+      >
+      <input
+        [(ngModel)]="newBook.title"
+        name="title"
+        id="title"
+        placeholder="title"
+        required
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+      />
+    </div>
+    <div class="flex flex-col">
+      <label
+        for="author"
+        class="text-sm font-bold text-gray-700 tracking-wide mb-2"
+        >Author:</label
+      >
+      <input
+        [(ngModel)]="newBook.author"
+        name="author"
+        id="author"
+        placeholder="author"
+        required
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+      />
+    </div>
+    <div>
+      <label
+        for="genre"
+        class="text-sm font-bold text-gray-700 tracking-wide mb-2"
+        >Genre:</label
+      >
+      <input
+        [(ngModel)]="newBook.genre"
+        name="genre"
+        id="genre"
+        type="text"
+        placeholder="genre"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+      />
+    </div>
+    <div>
+      <label
+        for="publishedYear"
+        class="text-sm font-bold text-gray-700 tracking-wide mb-2"
+        >Published Year:</label
+      >
+      <input
+        [(ngModel)]="newBook.publishedYear"
+        name="publishedYear"
+        id="publishedYear"
+        type="number"
+        minlength="4"
+        placeholder="publishedYear"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+      />
+    </div>
+    <button
+      type="submit"
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+    >
+      Add Book
+    </button>
+  </form>
+
+  <ul
+    class="mt-8 w-full max-w-xl border border-gray-300 divide-y divide-gray-300 rounded-md shadow-md bg-white"
+  >
+    <li
+      *ngFor="let book of books"
+      class="flex flex-col items-start justify-between p-4 hover:bg-gray-50 transition duration-300 ease-in-out"
+    >
+      <div class="flex flex-col gap-2 text-sm font-bold text-gray-700">
+        <ng-container *ngIf="selectedBook === book">
+          <label class="text-xs font-semibold text-gray-600">Title:</label>
+          <input
+            [(ngModel)]="book.title"
+            name="title"
+            id="title"
+            placeholder="title"
+            required
+            class="text-sm font-bold text-gray-900"
+          />
+          <label class="text-xs font-semibold text-gray-600">Author:</label>
+          <input
+            [(ngModel)]="book.author"
+            name="author"
+            id="author"
+            placeholder="author"
+            required
+            class="text-sm font-bold text-gray-900"
+          />
+          <label class="text-xs font-semibold text-gray-600">Genre:</label>
+          <input
+            [(ngModel)]="book.genre"
+            name="genre"
+            id="genre"
+            placeholder="genre"
+            required
+            class="text-sm font-bold text-gray-900"
+          />
+          <label class="text-xs font-semibold text-gray-600"
+            >Published Year:</label
+          >
+          <input
+            [(ngModel)]="book.publishedYear"
+            name="publishedYear"
+            id="publishedYear"
+            placeholder="publishedYear"
+            required
+            class="text-sm font-bold text-gray-900"
+          />
+          <div
+            class="flex flex-row items-center justify-center space-x-4 md:space-x-6 mt-4"
+          >
+            <button
+              (click)="selectedBook = null"
+              class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              cancel
+            </button>
+            <button
+              (click)="updateBook(book)"
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Update
+            </button>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="selectedBook !== book">
+          <label class="text-xs font-semibold text-gray-600">Title:</label>
+          <span class="text-sm font-bold text-gray-900">{{ book.title }}</span>
+          <label class="text-xs font-semibold text-gray-600">Author:</label>
+          <span class="text-sm font-bold text-gray-900">{{ book.author }}</span>
+          <label class="text-xs font-semibold text-gray-600">Genre:</label>
+          <span class="text-sm font-bold text-gray-900">{{ book.genre }}</span>
+          <label class="text-xs font-semibold text-gray-600"
+            >Published Year:</label
+          >
+          <span class="text-sm font-bold text-gray-900">{{
+            book.publishedYear
+          }}</span>
+          <div
+            class="flex flex-row items-center justify-center space-x-4 md:space-x-6 mt-4"
+          >
+            <button
+              (click)="selectedBook = book"
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Update
+            </button>
+            <button
+              (click)="deleteBook(book._id!)"
+              class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Delete
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </li>
+  </ul>
+</div>
